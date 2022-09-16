@@ -79,7 +79,9 @@ function removeAllTasks() {
 }
 
 function clearAllTasksFromLocalStorage() {
-  localStorage.clear();
+  if (confirm("Are you sure?")) {
+    localStorage.clear();
+  }
   location.reload();
 }
 
