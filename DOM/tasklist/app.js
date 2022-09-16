@@ -75,6 +75,12 @@ function storeTaskInLocalStorage(task) {
 
 function removeAllTasks() {
   taskList.remove();
+  clearAllTasksFromLocalStorage();
+}
+
+function clearAllTasksFromLocalStorage() {
+  localStorage.clear();
+  location.reload();
 }
 
 function removeTask(e) {
@@ -86,8 +92,21 @@ function removeTask(e) {
   removeTaskFromLocalStorage(e.target.parentElement.parentElement);
 }
 
-function removeTaskFromLocalStorage(taskItem){
-  localStorage.removeItem(taskItem)
+function removeTaskFromLocalStorage(taskItem) {
+  let tasks;
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.forEach((task, index) => {
+    if (taskItem.textContent === task) {
+      tasks.splice(index, 1);
+    }
+  })
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function filterTask(e) {
